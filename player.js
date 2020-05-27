@@ -1,5 +1,6 @@
 const stat = document.querySelector(".stat");
-
+const addStatForm = document.querySelector(".addStat");
+const statPointP =  addStatForm.querySelector("p");
 class Player extends Character{
     attack(target){
         let text = `${this.name}님이 ${target.name} 을 ${this.att}의 공격력으로 공격합니다.`;
@@ -34,13 +35,47 @@ class Player extends Character{
             this.exp = this.exp - this.lvlExp;
             this.lvlExp += 50;
             this.hp = this.maxHp;
+            this.statPoint += 5;
+            statPointP.innerText = this.statPoint;
             text += `\n축하합니다!. 레벨업 하였습니다.`;
         }
         return text;
     }
 }
 
-function printStat(player){
+
+const player = new Player("모험가", 1, 0, 100, 5, 5, 5, 5);
+
+function init(){
+    const addStats = addStatForm.querySelectorAll("button");
+    addStats.forEach(element => {
+        element.addEventListener("click", addStat);
+    });
+}
+
+
+
+function addStat(event){
+    if(player.statPoint > 0){
+        switch(event.target.id){
+            case "0" : player.str += 1;
+                       break;
+            case "1" : player.vit += 1;
+                       break;
+            case "2" : player.dex += 1;
+                       break;
+            case "3" : player.agi += 1;
+                       break;
+            default: break;
+        }
+    
+        player.statPoint--;
+        statPointP.innerText = player.statPoint;
+        printStat();
+    }
+}
+
+function printStat(){
     if(document.querySelector("#status") == null){
         const ul = document.createElement("ul");
         ul.setAttribute("id", "status");
@@ -91,8 +126,15 @@ function printStat(player){
     else{
         document.querySelector("#lvl").innerText = `레벨: ${player.lvl}`;
         document.querySelector("#hp").innerText = `체력: ${player.hp}`;
+        document.querySelector("#str").innerText = `힘: ${player.str}`;
+        document.querySelector("#vit").innerText = `바이탈: ${player.vit}`;
+        document.querySelector("#dex").innerText = `덱스: ${player.dex}`;
+        document.querySelector("#agi").innerText = `어질리티: ${player.agi}`;
+        document.querySelector("#att").innerText = `공격력: ${player.att}`;
+        document.querySelector("#crit").innerText = `크리확률: ${player.crit}`;
+        document.querySelector("#eva").innerText = `회피확률: ${player.eva}`;
     }
 }
 
-const player = new Player("모험가", 1, 0, 100, 5, 5, 5, 5);
-printStat(player);
+printStat();
+init();

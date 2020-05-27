@@ -15,6 +15,7 @@ class Character {
         this.lvl = lvl;
         this.exp = exp;
         this.lvlExp = 100;
+        this.statPoint = 0;
 
         this.isDead = false;
     }
@@ -30,24 +31,29 @@ class Character {
     }
     set str(value){
         this._str = value;
+        this.att = value;
     }
     get vit(){
         return this._vit;
     }
     set vit(value){
         this._vit = value;
+        this.hp = value * 100;
+        this.maxHp = this.hp;
     }
     get dex(){
         return this._dex;
     }
     set dex(value){
         this._dex = value;
+        this.crit = value;
     }
     get agi(){
         return this._agi;
     }
     set agi(value){
         this._agi = value;
+        this.eva = value;
     }
     get att(){
         return this._att;
@@ -107,5 +113,11 @@ class Character {
     }
     set maxHp(value){
         this._maxHp = value;
+    }
+    get statPoint(){
+        return this._statPoint;
+    }
+    set statPoint(value){
+        this._statPoint = value;
     }
 }
