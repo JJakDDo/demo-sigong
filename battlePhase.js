@@ -1,4 +1,4 @@
-const battleLog = document.querySelector(".battleLog");
+
 
 function battlePhase(event){
     const logs = battleLog.querySelectorAll("p");
