@@ -124,20 +124,35 @@ function showMain(){
     battleFieldDiv.style.display = "none";
 }
 
+function showAddStat(){
+    if((player.statPoint+1)% 5 != 0){
+        addStatDiv.querySelector(".normalStat").style.display ="block"; 
+        addStatDiv.querySelector(".specialStat").style.display ="none"; 
+    }
+    else{
+        addStatDiv.querySelector(".normalStat").style.display ="none"; 
+        addStatDiv.querySelector(".specialStat").style.display ="block"; 
+    }
+}
 function showCharacterDiv(){
     pickJobDiv.style.display = "none";
     menuDiv.style.display = "block";
     monstersDiv.style.display = "none";
     stat.style.display = "block";
-    addStatDiv.style.display = "block";
+    addStatDiv.style.display = "none";
     battleFieldDiv.style.display = "none";
+    if(player.statPoint < player.accumulatedLevel){
+        addStatDiv.style.display = "block";
+        statPointP.innerText = player.accumulatedLevel - player.statPoint;
+        showAddStat();
+    }
 
     printStat();
 }
 function showBattleFieldDiv(){
     pickJobDiv.style.display = "none";
     menuDiv.style.display = "block";
-    monstersDiv.style.display = "none";
+    monstersDiv.style.display = "block";
     stat.style.display = "none";
     addStatDiv.style.display = "none";
     battleFieldDiv.style.display = "block";
@@ -149,15 +164,19 @@ function start(job){
         alert("직업을 선택하세요!");
     }
     else if (job == 1){
-        player = new Player("전사", 0, 0, 0, 10, 0, 15, 10, 0, 0, 1000, 200, 0);
+        player = new Player("전사", 0, 0, 0, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0);
         console.log("전사 선택");
         showMain();
     }
     else if (job == 2){
-        player = new Player("모험가", 10, 8, 5, 10, 0, 15, 10, 0, 0, 1000, 200, 0);
+        player = new Player("모험가", 10, 8, 5, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0);
         console.log("투사 선택");
         showMain();
     }
+    const addStats = addStatDiv.querySelectorAll("button");
+    addStats.forEach(element => {
+        element.addEventListener("click", addStat);
+    });
 }
 
 function init(){
@@ -174,47 +193,47 @@ function init(){
             }
         }
     });
+
 }
 
 
+function addStat(event){
+    switch(event.target.id){
+        case "0" : player.str += 5;
+                    break;
+        case "1" : player.dex += 5;
+                    break;
+        case "2" : player.inte += 5;
+                    break;
+        case "3" : player.physicalAtt += 15;
+                    break;
+        case "4" : player.magicAtt += 15;
+                    break;
+        case "5" : player.physicalDef += 10;
+                    break;
+        case "6" : player.magicDef += 10;
+                    break;
+        case "7" : player.evasion += 2;
+                    break;
+        case "8" : player.critical += 2;
+                    break;
+        case "9" : player.speed -= 80;
+                    break;
+        case "10" : player.maxHp += 150;
+                    break;
+        case "11" : player.maxManaShield += 100;
+                    break;
+        default: break;
+    }
 
-
-/*function init(){
-    const addStats = addStatDiv.querySelectorAll("button");
-    addStats.forEach(element => {
-        element.addEventListener("click", addStat);
-    });
-    if(player.statPoint == 0){
-        console.log("here");
+    player.statPoint++;
+    
+    if(player.statPoint == player.accumulatedLevel){
         addStatDiv.style.display = "none"
     }
+    statPointP.innerText = player.accumulatedLevel - player.statPoint;
+    printStat();
+    showAddStat();
+    console.log(player.statPoint);
 }
-function addStat(event){
-    if(player.statPoint > 0){
-        switch(event.target.id){
-            case "0" : player.str += 1;
-                       break;
-            case "1" : player.vit += 1;
-                       break;
-            case "2" : player.dex += 1;
-                       break;
-            case "3" : player.agi += 1;
-                       break;
-            default: break;
-        }
-    
-        player.statPoint--;
-        
-        if(player.statPoint == 0){
-            console.log("here");
-            addStatForm.style.display = "none"
-        }
-        statPointP.innerText = player.statPoint;
-        printStat();
-    }
-}
-
-
-
-printStat();*/
 init();

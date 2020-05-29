@@ -1,16 +1,19 @@
 class Character {
-    constructor(name, str, dex, inte, physicalAtt, magicAtt, physicalDef, magicDef, evasion, critical, speed, maxHp, manaShield){
+    constructor(name, str, dex, inte, physicalAtt, magicAtt, physicalDef, magicDef, evasion, critical, speed, maxHp, manaShield, exp){
         this.name = name;
         this.accumulatedLevel = 1;
         this.jobLevel = 1;
-        this.maxExp = 100;
-        this.currentExp = 0;
+        this.maxExp = 10;
+        this.currentExp = exp;
         this.gold = 0;
         this.maxStamina = 100;
         this.currentStamina = 100;
         this.str = str;
         this.dex = dex;
         this.inte = inte;
+        this.addedStr = 0;
+        this.addedDex = 0;
+        this.addedInte = 0;
         this.statPoint = 0;
         this.physicalAtt = physicalAtt;
         this.magicAtt = magicAtt;
@@ -26,7 +29,16 @@ class Character {
         //this.jobs = [];
         //this.equiment = [];
 
-        this.statPoint = 0;
+        this.addedPhysicalAtt = 0;
+        this.addedMagicAtt = 0;
+        this.addedPhysicalDef = 0;
+        this.addedMagicDef = 0;
+        this.addedEvasion = 0;
+        this.addedManaShield = 0;
+        this.addedHp = 0;
+        this.addedSpeed = 0;
+
+        this.statPoint = 1;
 
         this.isDead = false;
     }
@@ -139,6 +151,15 @@ class Character {
     }
     set str(value){
         this._str = value;
+        const tempPA = this.addedPhysicalAtt;
+        const tempHP = this.addedHp;
+
+        this.addedPhysicalAtt =  Math.floor((this.physicalAtt * 0.01) * (this._str / 5));
+        this.addedHp = Math.floor(this._str / 2)* 10;
+
+        this.physicalAtt += this.addedPhysicalAtt - tempPA;
+        this.maxHp += this.addedHp - tempHP;
+        this.currentHp = this.maxHp;
     }
 
     get dex(){
@@ -146,6 +167,15 @@ class Character {
     }
     set dex(value){
         this._dex = value;
+        
+        const tempS = this.addedSpeed;
+        const tempE = this.addedEvasion;
+
+        this.addedSpeed =  Math.floor(this._dex / 2);
+        this.addedEvasion = Math.floor((this._dex / 5));
+
+        this.speed -= this.addedSpeed - tempS;
+        this.evasion += this.addedEvasion - tempE;
     }
 
     get inte(){
