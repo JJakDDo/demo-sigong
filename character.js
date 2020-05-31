@@ -39,6 +39,7 @@ class Character {
         this.addedSpeed = 0;
 
         this.statPoint = 1;
+        this.hpPerSec = 5;
 
         this.isDead = false;
     }
@@ -209,5 +210,11 @@ class Character {
     }
     set physicalDef(value){
         this._physicalDef = value;
+    }
+    get hpPerSec(){
+        return this._hpPerSec;
+    }
+    set hpPerSec(value){
+        this._hpPerSec = value;
     }
 }

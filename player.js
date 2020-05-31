@@ -21,7 +21,7 @@ class Player extends Character{
     attacked(attack){
         this.currentHp -= attack;
         if(this.currentHp <= 0){
-            let text = `${this.name}님이 죽었습니다. F5를 눌러 다시 시작하세요.`;
+            let text = `${this.name}님이 죽었습니다.`;
             this.isDead = true;
 
             return text;
@@ -51,5 +51,15 @@ class Player extends Character{
         this.currentHp = this.maxHp;
         this.physicalAtt += 5;
         this.physicalDef += 6;
+        this.hpPerSec = this.accumulatedLevel * 5;
+    }
+
+    revive(){
+        const penaltyExp = Math.floor(this.currentExp * 0.2);
+        this.currentExp -= penaltyExp;
+        this.currentHp = 1;
+        this.isDead = false;
+
+        return `${penaltyExp} 경험치를 잃었습니다.`;
     }
 }

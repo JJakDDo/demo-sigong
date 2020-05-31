@@ -10,6 +10,7 @@ const battleFieldDiv = document.querySelector(".battleField");
 const briefStatDiv = battleFieldDiv.querySelector(".brief_stat");
 
 const playBtn = pickJobDiv.querySelector(".playBtn");
+const battleBtn = monstersDiv.querySelector(".startBattle");
 let player;
 let hpC;
 playBtn.addEventListener("click", function(){
@@ -22,6 +23,24 @@ playBtn.addEventListener("click", function(){
         }
     }
     start(selectedJob);
+});
+
+battleBtn.addEventListener("click", function(){
+    const rbs = monstersDiv.querySelectorAll('input[name="monster"]');
+    const numOfBattle = parseInt(monstersDiv.querySelector(".numOfBattle").value);
+    let selectedMonster;
+    for (const rb of rbs){
+        if(rb.checked){
+            selectedMonster = rb.value;
+            break;
+        }
+    }
+    if(numOfBattle == 1){
+        battlePhase(selectedMonster);
+    }
+    else{
+        multipleBattlePhase(selectedMonster, numOfBattle);
+    }
 });
 
 function removeBattleLog(){    
@@ -192,9 +211,9 @@ function stopHpCounter(){
 }
 function hpCounter(){
     if(player.currentHp < player.maxHp){
-        if(player.currentHp > player.maxHp - 10)
+        if(player.currentHp > player.maxHp - player.hpPerSec)
             player.currentHp = player.maxHp;
-        else player.currentHp += 10;
+        else player.currentHp += player.hpPerSec;
         tavernDiv.querySelector(".hp").innerText = `체력: ${player.currentHp} / ${player.maxHp}`;
     }
 }

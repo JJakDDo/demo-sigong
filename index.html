@@ -45,10 +45,13 @@
     </div>
 
     <div class="monsters">
-        <button class="monster" id="0"> 훈련용 로봇 lvl 1 </button>
-        <button class="monster" id="1"> 개량형 로봇 lvl 5 </button>
-        <button class="monster" id="2"> 전투 로봇 lvl 10 </button>
-        <button class="monster" id="3"> 카라짐 lvl 10 </button>
+        <div class="training">
+            <input type="radio" value="0" name="monster" checked="checked">훈련용 로봇 lvl 1
+            <input type="radio" value="1" name="monster">개량형 로봇 lvl 5
+            <input type="radio" value="2" name="monster">전투 로봇 lvl 10
+        </div>
+        <input class="numOfBattle" type="text">
+        <input class="startBattle" type="button" value="전투">
     </div>
 
     <div class="battleLog">
