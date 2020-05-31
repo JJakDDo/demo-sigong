@@ -1,8 +1,8 @@
 const monsterArray = [
-    ["훈련용 로봇", 0, 0, 0, 8, 0, 15, 15, 0, 0, 1000, 200, 0, 15],
-    ["개량형 로봇", 0, 0, 0, 17, 30, 20, 20, 10, 0, 1000, 300, 0, 45],
-    ["전투 로봇", 0, 0, 0, 28, 0, 60, 40, 20, 0, 900, 450, 0, 90],
-    ["카라짐", 0, 0, 0, 5, 0, 5, 5, 0, 0, 1000, 100, 0, 50]
+    ["훈련용 로봇", 0, 0, 0, 8, 0, 15, 15, 0, 0, 1000, 200, 0, 15, 5, 50],
+    ["개량형 로봇", 0, 0, 0, 17, 30, 20, 20, 10, 0, 1000, 300, 0, 45, 3, 100],
+    ["전투 로봇", 0, 0, 0, 28, 0, 60, 40, 20, 0, 900, 450, 0, 90, 5, 150],
+    ["카라짐", 0, 0, 0, 5, 0, 5, 5, 0, 0, 1000, 100, 0, 50, 0, 200]
 ];
 
 const btnButtons = document.querySelectorAll(".monster");
@@ -54,5 +54,5 @@ class Monster extends Character{
 let monsters = [];
 
 for(let i=0; i<monsterArray.length;i++){
-    monsters[i] = new Monster(monsterArray[i][0], monsterArray[i][1], monsterArray[i][2], monsterArray[i][3], monsterArray[i][4], monsterArray[i][5], monsterArray[i][6], monsterArray[i][7], monsterArray[i][8], monsterArray[i][9], monsterArray[i][10], monsterArray[i][11], monsterArray[i][12], monsterArray[i][13]);
+    monsters[i] = new Monster(monsterArray[i][0], monsterArray[i][1], monsterArray[i][2], monsterArray[i][3], monsterArray[i][4], monsterArray[i][5], monsterArray[i][6], monsterArray[i][7], monsterArray[i][8], monsterArray[i][9], monsterArray[i][10], monsterArray[i][11], monsterArray[i][12], monsterArray[i][13], monsterArray[i][14], monsterArray[i][15]);
 }

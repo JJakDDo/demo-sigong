@@ -1,13 +1,13 @@
 class Character {
-    constructor(name, str, dex, inte, physicalAtt, magicAtt, physicalDef, magicDef, evasion, critical, speed, maxHp, manaShield, exp){
+    constructor(name, str, dex, inte, physicalAtt, magicAtt, physicalDef, magicDef, evasion, critical, speed, maxHp, manaShield, exp, stamina, gold){
         this.name = name;
         this.accumulatedLevel = 1;
         this.jobLevel = 1;
         this.maxExp = 10;
         this.currentExp = exp;
-        this.gold = 0;
-        this.maxStamina = 100;
-        this.currentStamina = 100;
+        this.gold = gold;
+        this.maxStamina = stamina;
+        this.currentStamina = stamina;
         this.str = str;
         this.dex = dex;
         this.inte = inte;

@@ -5,10 +5,13 @@ const battleLog = document.querySelector(".battleLog");
 const pickJobDiv = document.querySelector(".pickJob");
 const menuDiv = document.querySelector(".menu");
 const monstersDiv = document.querySelector(".monsters");
+const tavernDiv = document.querySelector(".tavern");
 const battleFieldDiv = document.querySelector(".battleField");
+const briefStatDiv = battleFieldDiv.querySelector(".brief_stat");
 
 const playBtn = pickJobDiv.querySelector(".playBtn");
 let player;
+let hpC;
 playBtn.addEventListener("click", function(){
     const rbs = pickJobDiv.querySelectorAll('input[name="job"]');
     let selectedJob;
@@ -21,6 +24,14 @@ playBtn.addEventListener("click", function(){
     start(selectedJob);
 });
 
+function removeBattleLog(){    
+    const logs = battleLog.querySelectorAll("p");
+    if(logs != null){
+        for(let i=0;i<logs.length;i++){
+            battleLog.removeChild(logs[i]);
+        }    
+    }
+}
 function printStat(){
     if(document.querySelector("#status") == null){
         const ul = document.createElement("ul");
@@ -114,6 +125,7 @@ function showPickJobDiv(){
     stat.style.display = "none";
     addStatDiv.style.display = "none";
     battleFieldDiv.style.display = "none";
+    tavernDiv.style.display = "none";
 }
 function showMain(){
     pickJobDiv.style.display = "none";
@@ -122,6 +134,9 @@ function showMain(){
     stat.style.display = "none";
     addStatDiv.style.display = "none";
     battleFieldDiv.style.display = "none";
+    tavernDiv.style.display = "none";
+    stopHpCounter();
+    removeBattleLog();
 }
 
 function showAddStat(){
@@ -141,6 +156,7 @@ function showCharacterDiv(){
     stat.style.display = "block";
     addStatDiv.style.display = "none";
     battleFieldDiv.style.display = "none";
+    tavernDiv.style.display = "none";
     if(player.statPoint < player.accumulatedLevel){
         addStatDiv.style.display = "block";
         statPointP.innerText = player.accumulatedLevel - player.statPoint;
@@ -148,7 +164,41 @@ function showCharacterDiv(){
     }
 
     printStat();
+    stopHpCounter();
+    removeBattleLog();
 }
+
+function updateBriefStat(){
+    briefStatDiv.querySelector("#name").innerText = `이름: ${player.name}`;
+    briefStatDiv.querySelector("#accumulatedLevel").innerText = `누적레벨: ${player.accumulatedLevel}`;
+    briefStatDiv.querySelector("#hp").innerText = `체력: ${player.currentHp} / ${player.maxHp}`;
+    briefStatDiv.querySelector("#stamina").innerText = `스테미나: ${player.currentStamina} / ${player.maxStamina}`;
+}
+
+function startStaminaCounter(){
+    setInterval("staminaCounter()", 5000);
+}
+function staminaCounter(){
+    if(player.currentStamina < player.maxStamina){
+        player.currentStamina++;
+        briefStatDiv.querySelector("#stamina").innerText = `스테미나: ${player.currentStamina} / ${player.maxStamina}`;
+    }
+}
+function startHpCounter(){
+    hpC = setInterval("hpCounter()", 1000);
+}
+function stopHpCounter(){
+    clearInterval(hpC);
+}
+function hpCounter(){
+    if(player.currentHp < player.maxHp){
+        if(player.currentHp > player.maxHp - 10)
+            player.currentHp = player.maxHp;
+        else player.currentHp += 10;
+        tavernDiv.querySelector(".hp").innerText = `체력: ${player.currentHp} / ${player.maxHp}`;
+    }
+}
+
 function showBattleFieldDiv(){
     pickJobDiv.style.display = "none";
     menuDiv.style.display = "block";
@@ -156,6 +206,22 @@ function showBattleFieldDiv(){
     stat.style.display = "none";
     addStatDiv.style.display = "none";
     battleFieldDiv.style.display = "block";
+    tavernDiv.style.display = "none";
+    updateBriefStat();
+    stopHpCounter();
+    removeBattleLog();
+}
+
+function showTavernDiv(){    
+    pickJobDiv.style.display = "none";
+    menuDiv.style.display = "block";
+    monstersDiv.style.display = "none";
+    stat.style.display = "none";
+    addStatDiv.style.display = "none";
+    battleFieldDiv.style.display = "none";
+    tavernDiv.style.display = "block";
+    startHpCounter();
+    removeBattleLog();
 }
 
 function start(job){    
@@ -164,13 +230,15 @@ function start(job){
         alert("직업을 선택하세요!");
     }
     else if (job == 1){
-        player = new Player("전사", 0, 0, 0, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0);
+        player = new Player("전사", 0, 0, 0, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0, 100, 0);
         console.log("전사 선택");
+        startStaminaCounter();
         showMain();
     }
     else if (job == 2){
-        player = new Player("모험가", 10, 8, 5, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0);
+        player = new Player("모험가", 10, 8, 5, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0, 100, 0);
         console.log("투사 선택");
+        startStaminaCounter();
         showMain();
     }
     const addStats = addStatDiv.querySelectorAll("button");
@@ -187,6 +255,9 @@ function init(){
             console.log(e.target.id);
             if(e.target.id == "1"){
                 showCharacterDiv();
+            }
+            else if(e.target.id == "5"){
+                showTavernDiv();
             }
             else if(e.target.id == "6"){
                 showBattleFieldDiv();
