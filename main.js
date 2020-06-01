@@ -195,7 +195,7 @@ function updateBriefStat(){
 }
 
 function startStaminaCounter(){
-    setInterval("staminaCounter()", 5000);
+    setInterval("staminaCounter()", 2000);
 }
 function staminaCounter(){
     if(player.currentStamina < player.maxStamina){
@@ -214,8 +214,9 @@ function hpCounter(){
         if(player.currentHp > player.maxHp - player.hpPerSec)
             player.currentHp = player.maxHp;
         else player.currentHp += player.hpPerSec;
-        tavernDiv.querySelector(".hp").innerText = `체력: ${player.currentHp} / ${player.maxHp}`;
+        
     }
+    tavernDiv.querySelector(".hp").innerText = `체력: ${player.currentHp} / ${player.maxHp}`;
 }
 
 function showBattleFieldDiv(){
@@ -289,29 +290,29 @@ function init(){
 
 function addStat(event){
     switch(event.target.id){
-        case "0" : player.str += 5;
+        case "0" : player.str += 2;
                     break;
-        case "1" : player.dex += 5;
+        case "1" : player.dex += 2;
                     break;
-        case "2" : player.inte += 5;
+        case "2" : player.inte += 2;
                     break;
-        case "3" : player.physicalAtt += 15;
+        case "3" : player.physicalAtt += 2;
                     break;
-        case "4" : player.magicAtt += 15;
+        case "4" : player.magicAtt += 2;
                     break;
-        case "5" : player.physicalDef += 10;
+        case "5" : player.physicalDef += 2;
                     break;
-        case "6" : player.magicDef += 10;
+        case "6" : player.magicDef += 2;
                     break;
-        case "7" : player.evasion += 2;
+        case "7" : player.evasion += 1;
                     break;
-        case "8" : player.critical += 2;
+        case "8" : player.critical += 1;
                     break;
-        case "9" : player.speed -= 80;
+        case "9" : player.speed -= 10;
                     break;
-        case "10" : player.maxHp += 150;
+        case "10" : player.maxHp += 20;
                     break;
-        case "11" : player.maxManaShield += 100;
+        case "11" : player.maxManaShield += 15;
                     break;
         default: break;
     }

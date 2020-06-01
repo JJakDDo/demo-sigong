@@ -46,11 +46,11 @@ class Player extends Character{
     getNewStat(){
         this.accumulatedLevel++;
         this.currentExp = this.currentExp - this.maxExp;
-        this.maxExp += 20;
-        this.maxHp += 25;
+        this.maxExp += Math.floor(this.maxExp * 1.1);
+        this.maxHp += 5;
         this.currentHp = this.maxHp;
-        this.physicalAtt += 5;
-        this.physicalDef += 6;
+        this.physicalAtt += 1;
+        this.physicalDef += 1;
         this.hpPerSec = this.accumulatedLevel * 5;
     }
 

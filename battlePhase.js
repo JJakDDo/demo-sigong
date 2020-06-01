@@ -64,6 +64,7 @@ function battlePhase(monsterIndex){
 function multipleBattlePhase(monsterIndex, numOfBattle){
     const monster = monsters[monsterIndex];
     const stamnia = monster.currentStamina;      
+    let battleOver = false;
     removeBattleLog();
     console.log(numOfBattle);
     for(let i = 0;i<numOfBattle;i++){
@@ -89,6 +90,7 @@ function multipleBattlePhase(monsterIndex, numOfBattle){
                         const pPlayer = document.createElement("p");
                         pPlayer.innerText = playerLog;
                         battleLog.appendChild(pPlayer);
+                        battleOver = true;
                         break;
                     }
     
@@ -116,6 +118,8 @@ function multipleBattlePhase(monsterIndex, numOfBattle){
             
             monster.reset();
         }
+        if(battleOver)
+            break;
     }    
     updateBriefStat();   
 }
