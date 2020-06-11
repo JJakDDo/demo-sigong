@@ -1,19 +1,53 @@
 class Player extends Character{
-    attack(target){
-        let text;
+    attack(target, turn){
+        let text = '';
+        let actualDamage;
+        if(turn == 1 && this.passiveSkills.length > 0){
+            console.log(this.passiveSkills[0].name);
+            for(let i=0;i<this.passiveSkills.length;i++){
+                console.log(this.physicalDef);
+                this.passiveSkills[i].getSkillEffect(this);
+                text += `${this.name}님이 패시브 스킬 ${this.passiveSkills[i].name} 을/를 발동하였습니다.\n`;
+                console.log(this.physicalDef);
+            }
+        }
+
+        if(this.activeSkills.length > 0){
+            for(let i=0;i<this.activeSkills.length;i++){
+                let rand = Math.floor(Math.random() * 100) + 1;
+                if(rand <= this.activeSkills[i].prob){
+                    return this.activeSkills[i].getSkillEffect(player, target, i);
+                }
+            }
+        }
+
         if(target.evasion != 0){
-            let rand = Math.floor(Math.random() * 100) + 1;
+            let rand = Math.floor(Math.random() * 1000) + 1;
             if(rand <= target.evasion){
-                text = `공격이 빗나갔습니다.`
+                text += `공격이 빗나갔습니다.`;
                 return text;
             }
         }
-        const actualDamage = Math.round(this.physicalAtt - (target.physicalDef/10) * 0.01);
-        text = `${this.name}님이 ${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
-        text = text + "\n" + target.attacked(actualDamage);
+        
+        if(this.critical != 0){
+            let rand = Math.floor(Math.random() * 1000) + 1;
+            if(rand <= this.critical){
+                actualDamage = Math.round(this.physicalAtt * 2 - (target.physicalDef/5) * 0.01);
+                text +=`치명타 발동! ${this.name}님이 ${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
+            }
+            else{            
+                actualDamage = Math.round(this.physicalAtt - (target.physicalDef/5) * 0.01);
+                text +=`${this.name}님이 ${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
+            }
+        }
+        else{            
+            actualDamage = Math.round(this.physicalAtt - (target.physicalDef/5) * 0.01);
+            text +=`${this.name}님이 ${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
+        }
+        text += `\n${target.attacked(actualDamage)}`;
         if(target.currentHp <= 0){
             target.isDead = true;
-            text = text + "\n" + this.getEXP(target.currentExp);
+            text += `\n${this.getEXP(target.currentExp)}`;
         }
         return text;
     }
@@ -46,7 +80,7 @@ class Player extends Character{
     getNewStat(){
         this.accumulatedLevel++;
         this.currentExp = this.currentExp - this.maxExp;
-        this.maxExp += Math.floor(this.maxExp * 1.1);
+        this.maxExp += Math.floor(this.maxExp * 1.5);
         this.maxHp += 5;
         this.currentHp = this.maxHp;
         this.physicalAtt += 1;

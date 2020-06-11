@@ -27,7 +27,15 @@ class Character {
         this.maxManaShield = manaShield;
         this.currentManaShield = manaShield;
         //this.jobs = [];
-        //this.equiment = [];
+        this.passiveSkills = [];
+        this.addPassiveSkill = function (skill){
+            this.passiveSkills.push(skill);
+        }
+        this.activeSkills = [];
+        this.addActiveSkill = function (skill){
+            this.activeSkills.push(skill);
+        }
+
 
         this.addedPhysicalAtt = 0;
         this.addedMagicAtt = 0;
@@ -155,8 +163,8 @@ class Character {
         const tempPA = this.addedPhysicalAtt;
         const tempHP = this.addedHp;
 
-        this.addedPhysicalAtt =  Math.floor((this.physicalAtt * 0.01) * (this._str / 5));
-        this.addedHp = Math.floor(this._str / 2)* 10;
+        this.addedPhysicalAtt =  Math.floor(this._str / 5);
+        this.addedHp = Math.floor(this._str / 2)* 2;
 
         this.physicalAtt += this.addedPhysicalAtt - tempPA;
         this.maxHp += this.addedHp - tempHP;

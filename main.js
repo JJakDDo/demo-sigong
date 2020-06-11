@@ -106,11 +106,11 @@ function printStat(){
         ul.appendChild(li9);
         const li10 = document.createElement("li");
         li10.setAttribute("id", "evasion");
-        li10.innerText = `회피: ${player.evasion}`;
+        li10.innerText = `회피: ${(player.evasion / 10).toFixed(1)} %`;
         ul.appendChild(li10);
         const li11 = document.createElement("li");
         li11.setAttribute("id", "critical");
-        li11.innerText = `크리티컬: ${player.critical}`;
+        li11.innerText = `크리티컬: ${(player.critical / 10).toFixed(1)} %`;
         ul.appendChild(li11);
         const li12 = document.createElement("li");
         li12.setAttribute("id", "speed");
@@ -131,8 +131,8 @@ function printStat(){
         stat.querySelector("#magicAtt").innerText = `기술공격력: ${player.magicAtt}`;
         stat.querySelector("#physicalDef").innerText = `물리방어력: ${player.physicalDef}`;
         stat.querySelector("#magicDef").innerText = `기술방어력: ${player.magicDef}`;
-        stat.querySelector("#evasion").innerText = `회피: ${player.evasion}`;
-        stat.querySelector("#critical").innerText = `크리티컬: ${player.critical}`;
+        stat.querySelector("#evasion").innerText = `회피: ${(player.evasion / 10).toFixed(1)} %`;
+        stat.querySelector("#critical").innerText = `크리티컬: ${(player.critical / 10).toFixed(1)} %`;
         stat.querySelector("#speed").innerText = `공격속도: ${player.speed}`;
     }
 }
@@ -250,8 +250,10 @@ function start(job){
         alert("직업을 선택하세요!");
     }
     else if (job == 1){
-        player = new Player("전사", 0, 0, 0, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0, 100, 0);
-        console.log("전사 선택");
+        player = new Player("전사", 3, 1, 1, 5, 0, 4, 3, 0, 0, 1000, 200, 0, 0, 100, 0);
+        player.addPassiveSkill(new Harden());
+        player.addActiveSkill(new ShieldSlam());
+        console.log(player.passiveSkills);
         startStaminaCounter();
         showMain();
     }
