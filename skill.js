@@ -77,7 +77,9 @@ class ShieldSlam extends Skill{
     getSkillEffect(player, target){
         let text = '';
         text = `${player.name}님이 ${this.name}스킬을/를 발동하였습니다.\n`;
-        text +=`${target.name} 을/를 ${Math.floor(player.physicalDef * (0.8 + (0.05 * (this.level-1))))}의 공격력으로 공격합니다.`;
+        let actualDamage = Math.round(player.physicalDef * (0.8 + (0.05 * (this.level-1))) - (target.physicalDef/5) * 0.01);
+        text +=`${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
+        text += `\n${target.attacked(actualDamage)}`;
         return text;
     }
 }

@@ -16,7 +16,12 @@ class Player extends Character{
             for(let i=0;i<this.activeSkills.length;i++){
                 let rand = Math.floor(Math.random() * 100) + 1;
                 if(rand <= this.activeSkills[i].prob){
-                    return this.activeSkills[i].getSkillEffect(player, target, i);
+                    text += this.activeSkills[i].getSkillEffect(player, target, i);
+                    if(target.currentHp <= 0){
+                        target.isDead = true;
+                        text += `\n${this.getEXP(target.currentExp)}`;
+                    }
+                    return text;
                 }
             }
         }
