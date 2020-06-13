@@ -64,7 +64,7 @@ class Harden extends Skill{
     constructor(){
         super(1, 1, "단단해지기", 100, 1, 0);
     }
-    getSkillEffect(player){
+    getSkillEffect(){
         player.physicalDef += 2;
         player.magicDef += 2;
     }
@@ -72,9 +72,9 @@ class Harden extends Skill{
 
 class ShieldSlam extends Skill{
     constructor(){
-        super(2, 2, "방패밀기", 80, 1, 0);
+        super(1, 2, "방패밀기", 80, 1, 0);
     }
-    getSkillEffect(player, target){
+    getSkillEffect(target){
         let text = '';
         text = `${player.name}님이 ${this.name}스킬을/를 발동하였습니다.\n`;
         let actualDamage = Math.round(player.physicalDef * (0.8 + (0.05 * (this.level-1))) - (target.physicalDef/5) * 0.01);

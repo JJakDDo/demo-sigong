@@ -11,7 +11,7 @@ function playerTurn(target, turn){
 }
 
 function monsterTurn(monster){
-    monsterLog = monster.attack(player);
+    monsterLog = monster.attack();
     const pMonster = document.createElement("p");
     pMonster.innerText = monsterLog;
     battleLog.appendChild(pMonster);
@@ -32,6 +32,7 @@ function savePlayerInitStat(){
 }
 
 function resetPlayerInitStat(){
+    console.log('reset hp: ' , player.currentHp);  
     player.str = playerStat[0];
     player.dex = playerStat[1];
     player.inte = playerStat[2];
@@ -85,9 +86,12 @@ function battlePhase(monsterIndex){
     
             playerLog = '';
             monsterLog = '';
+            console.log('hp: ' , player);    
         }
+        console.log('hp: ' , this.currentHp);  
         resetPlayerInitStat();        
         updateBriefStat();
+        save();
         monster.reset();
     }
     
@@ -156,6 +160,7 @@ function multipleBattlePhase(monsterIndex, numOfBattle){
             break;
 
         resetPlayerInitStat();
-    }    
-    updateBriefStat();   
+    } 
+    updateBriefStat();  
+    save(); 
 }

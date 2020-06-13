@@ -6,7 +6,7 @@ class Player extends Character{
             console.log(this.passiveSkills[0].name);
             for(let i=0;i<this.passiveSkills.length;i++){
                 console.log(this.physicalDef);
-                this.passiveSkills[i].getSkillEffect(this);
+                this.passiveSkills[i].getSkillEffect();
                 text += `${this.name}님이 패시브 스킬 ${this.passiveSkills[i].name} 을/를 발동하였습니다.\n`;
                 console.log(this.physicalDef);
             }
@@ -16,10 +16,10 @@ class Player extends Character{
             for(let i=0;i<this.activeSkills.length;i++){
                 let rand = Math.floor(Math.random() * 100) + 1;
                 if(rand <= this.activeSkills[i].prob){
-                    text += this.activeSkills[i].getSkillEffect(player, target, i);
+                    text += this.activeSkills[i].getSkillEffect(target, i);
                     if(target.currentHp <= 0){
                         target.isDead = true;
-                        text += `\n${this.getEXP(target.currentExp)}`;
+                        text += `\n${this.getEXP(target.maxExp)}`;
                     }
                     return text;
                 }
@@ -52,13 +52,15 @@ class Player extends Character{
         text += `\n${target.attacked(actualDamage)}`;
         if(target.currentHp <= 0){
             target.isDead = true;
-            text += `\n${this.getEXP(target.currentExp)}`;
+            text += `\n${this.getEXP(target.maxExp)}`;
         }
         return text;
     }
 
     attacked(attack){
         this.currentHp -= attack;
+        console.log('attaced', this);
+        console.log('attaced', this.currentHp);
         if(this.currentHp <= 0){
             let text = `${this.name}님이 죽었습니다.`;
             this.isDead = true;

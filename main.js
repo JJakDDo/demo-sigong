@@ -156,6 +156,10 @@ function showMain(){
     tavernDiv.style.display = "none";
     stopHpCounter();
     removeBattleLog();
+    const addStats = addStatDiv.querySelectorAll("button");
+    addStats.forEach(element => {
+        element.addEventListener("click", addStat);
+    });
 }
 
 function showAddStat(){
@@ -188,6 +192,7 @@ function showCharacterDiv(){
 }
 
 function updateBriefStat(){
+    console.log('update', player);
     briefStatDiv.querySelector("#name").innerText = `이름: ${player.name}`;
     briefStatDiv.querySelector("#accumulatedLevel").innerText = `누적레벨: ${player.accumulatedLevel}`;
     briefStatDiv.querySelector("#hp").innerText = `체력: ${player.currentHp} / ${player.maxHp}`;
@@ -250,47 +255,26 @@ function start(job){
         alert("직업을 선택하세요!");
     }
     else if (job == 1){
-        player = new Player("전사", 3, 1, 1, 5, 0, 4, 3, 0, 0, 1000, 200, 0, 0, 100, 0);
+        player = new Player("전사", 3, 1, 1, 5, 0, 4, 3, 0, 0, 1000, 200, 0, 10, 100, 0);
         player.addPassiveSkill(new Harden());
         player.addActiveSkill(new ShieldSlam());
-        console.log(player.passiveSkills);
+        save(player);
+
         startStaminaCounter();
         showMain();
     }
     else if (job == 2){
-        player = new Player("모험가", 10, 8, 5, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 0, 100, 0);
+        player = new Player("모험가", 10, 8, 5, 10, 0, 15, 10, 0, 0, 1000, 200, 0, 10, 100, 0);
         console.log("투사 선택");
         startStaminaCounter();
         showMain();
     }
-    const addStats = addStatDiv.querySelectorAll("button");
-    addStats.forEach(element => {
-        element.addEventListener("click", addStat);
-    });
 }
 
-function init(){
-    showPickJobDiv();
-
-    menuDiv.addEventListener("click", (e) => {
-        if(e.target && e.target.nodeName == "LI"){
-            console.log(e.target.id);
-            if(e.target.id == "1"){
-                showCharacterDiv();
-            }
-            else if(e.target.id == "5"){
-                showTavernDiv();
-            }
-            else if(e.target.id == "6"){
-                showBattleFieldDiv();
-            }
-        }
-    });
-
-}
 
 
 function addStat(event){
+    console.log("here");
     switch(event.target.id){
         case "0" : player.str += 2;
                     break;
@@ -327,6 +311,88 @@ function addStat(event){
     statPointP.innerText = player.accumulatedLevel - player.statPoint;
     printStat();
     showAddStat();
-    console.log(player.statPoint);
+    save(player);
 }
+
+function load(){
+    const loadedData = localStorage.getItem('player');
+    if(loadedData !== null){
+        const parsedData = JSON.parse(loadedData);
+        console.log(parsedData);
+        player = new Player(parsedData._name, 
+                            parsedData._str, 
+                            parsedData._dex, 
+                            parsedData._inte, 
+                            parsedData._physicalAtt, 
+                            parsedData._magicAtt, 
+                            parsedData._physicalDef, 
+                            parsedData._magicDef, 
+                            parsedData._evasion, 
+                            parsedData._critical, 
+                            parsedData._speed, 
+                            parsedData._maxHp, 
+                            parsedData.maxManaShield, 
+                            parsedData._maxExp, 
+                            parsedData._maxStamina, 
+                            parsedData._gold);
+        
+        player.accumulatedLevel = parsedData._accumulatedLevel;
+        player.currentExp = parsedData._currentExp;
+        player.hpPerSec = parsedData._hpPerSec;
+        player.jobLevel = parsedData._jobLevel;
+        player.statPoint = parsedData._statPoint;
+        player.addedStr = parsedData.addedStr;
+        player.addedDex = parsedData.addedDex;
+        player.addedInte = parsedData.addedInte;
+        player.addedPhysicalAtt = parsedData.addedPhysicalAtt;
+        player.addedMagicAtt = parsedData.addedMagicAtt;
+        player.addedPhysicalDef = parsedData.addedPhysicalDef;
+        player.addedMagicDef = parsedData.addedMagicDef;
+        player.addedEvasion = parsedData.addedEvasion;
+        player.addedManaShield = parsedData.addedManaShield;
+        player.addedHp = parsedData.addedHp;
+        player.addedSpeed = parsedData.addedSpeed;
+        parsedData.passiveSkills.forEach(function(skill){
+            switch(skill._code){
+                case 1 : player.addPassiveSkill(new Harden());
+            }
+        });
+        parsedData.activeSkills.forEach(function(skill){
+            switch(skill._code){
+                case 1 : player.addActiveSkill(new ShieldSlam());
+            }
+        });
+
+        startStaminaCounter();
+        showMain();
+    }
+    else{
+        showPickJobDiv();
+    }
+}
+
+function save(){
+    localStorage.setItem('player', JSON.stringify(player));
+}
+
+function init(){
+    load();
+    console.log('load');
+    menuDiv.addEventListener("click", (e) => {
+        if(e.target && e.target.nodeName == "LI"){
+            console.log(e.target.id);
+            if(e.target.id == "1"){
+                showCharacterDiv();
+            }
+            else if(e.target.id == "5"){
+                showTavernDiv();
+            }
+            else if(e.target.id == "6"){
+                showBattleFieldDiv();
+            }
+        }
+    });
+
+}
+
 init();

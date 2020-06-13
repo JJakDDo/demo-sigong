@@ -12,12 +12,12 @@ btnButtons.forEach(element => {
 */
 
 class Monster extends Character{
-    attack(target){
+    attack(){
         let text;
         let actualDamage;
-        if(target.evasion != 0){
+        if(player.evasion != 0){
             let rand = Math.floor(Math.random() * 1000) + 1;
-            if(rand <= target.evasion){
+            if(rand <= player.evasion){
                 text = `공격이 빗나갔습니다.`
                 return text;
             }
@@ -26,22 +26,22 @@ class Monster extends Character{
         if(this.critical != 0){
             let rand = Math.floor(Math.random() * 1000) + 1;
             if(rand <= this.critical){
-                actualDamage = Math.round(this.physicalAtt * 2 - (target.physicalDef/5) * 0.01);
-                text = `치명타 발동! ${this.name}님이 ${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
+                actualDamage = Math.round(this.physicalAtt * 2 - (player.physicalDef/5) * 0.01);
+                text = `치명타 발동! ${this.name}님이 ${player.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
             }
             else{            
-                actualDamage = Math.round(this.physicalAtt - (target.physicalDef/5) * 0.01);
-                text = `${this.name}님이 ${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
+                actualDamage = Math.round(this.physicalAtt - (player.physicalDef/5) * 0.01);
+                text = `${this.name}님이 ${player.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
             }
         }
         else{            
-            actualDamage = Math.round(this.physicalAtt - (target.physicalDef/5) * 0.01);
-            text = `${this.name}님이 ${target.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
+            actualDamage = Math.round(this.physicalAtt - (player.physicalDef/5) * 0.01);
+            text = `${this.name}님이 ${player.name} 을/를 ${actualDamage}의 공격력으로 공격합니다.`;
         }
         
-        text = text + "\n" + target.attacked(actualDamage);
-        if(target.currentHp <= 0){
-            target.isDead = true;
+        text = text + "\n" + player.attacked(actualDamage);
+        if(player.currentHp <= 0){
+            player.isDead = true;
         }
         return text;
     }

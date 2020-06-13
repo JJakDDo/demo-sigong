@@ -3,8 +3,8 @@ class Character {
         this.name = name;
         this.accumulatedLevel = 1;
         this.jobLevel = 1;
-        this.maxExp = 10;
-        this.currentExp = exp;
+        this.maxExp = exp;
+        this.currentExp = 0;
         this.gold = gold;
         this.maxStamina = stamina;
         this.currentStamina = stamina;
@@ -46,11 +46,12 @@ class Character {
         this.addedHp = 0;
         this.addedSpeed = 0;
 
-        this.statPoint = 1;
-        this.hpPerSec = 5;
+        this.statPoint = 1;//
+        this.hpPerSec = 5;//
 
-        this.isDead = false;
+        this.isDead = false;//
     }
+
     get isDead(){
         return this._isDead;
     }
