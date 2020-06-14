@@ -276,11 +276,11 @@ function start(job){
 function addStat(event){
     console.log("here");
     switch(event.target.id){
-        case "0" : player.str += 2;
+        case "0" : player.addStr(player.str+2);
                     break;
-        case "1" : player.dex += 2;
+        case "1" : player.addDex(player.dex+2);
                     break;
-        case "2" : player.inte += 2;
+        case "2" : player.addInte(player.inte+2);
                     break;
         case "3" : player.physicalAtt += 2;
                     break;

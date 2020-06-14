@@ -161,6 +161,10 @@ class Character {
     }
     set str(value){
         this._str = value;
+    }
+
+    addStr(value){
+        this._str = value;
         const tempPA = this.addedPhysicalAtt;
         const tempHP = this.addedHp;
 
@@ -177,6 +181,9 @@ class Character {
     }
     set dex(value){
         this._dex = value;
+    }
+    addDex(value){
+        this._dex = value;
         
         const tempS = this.addedSpeed;
         const tempE = this.addedEvasion;
@@ -187,14 +194,15 @@ class Character {
         this.speed -= this.addedSpeed - tempS;
         this.evasion += this.addedEvasion - tempE;
     }
-
     get inte(){
         return this._inte;
     }
     set inte(value){
         this._inte = value;
     }
-
+    addInte(value){
+        this._inte = value;
+    }
     get statPoint(){
         return this._statPoint;
     }
